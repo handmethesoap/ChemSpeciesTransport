@@ -8,6 +8,8 @@
 #include <cmath>
 #include "GrayScaleImage.hh"
 
+#include <sstream>
+
 //*******************************************************************************************************************
 /*! Class for storing all arrays required for the simulation
 *
@@ -41,6 +43,8 @@ public:
    Array<real> & g()    { return g_;  }
    Array<bool> & obstacleflags() { return obstacleflags_; }
 
+   Array<real> & c(int i) { return c_[i]; }
+
    const Array<real> & p()   const { return p_;   }
    const Array<real> & rhs() const { return rhs_; }
    const Array<real> & u()   const { return u_;   }
@@ -48,6 +52,8 @@ public:
    const Array<real> & f()   const { return f_;   }
    const Array<real> & g()   const { return g_;   }
    const Array<bool> & obstacleflags() const { return obstacleflags_; }
+
+   const Array<real> & c(int i) const { return c_[i]; }
    
    // wrapped access
    inline real p(const int x, const int y, Direction dir);
@@ -59,7 +65,10 @@ public:
 
    int imax() const { return imax_; }
    int jmax() const { return jmax_; }
-   
+  
+    int numSpecies() const { return numSpecies_; }
+    real lambda(int i) const { return lambda_[i]; }
+
    int xSize() const { return imax_; }
    int ySize() const { return jmax_; }
    
@@ -82,12 +91,17 @@ protected:
    Array<real> g_;   //< g (helper array)
    Array<bool> obstacleflags_;
 
+   std::vector<real> lambda_;
+   std::vector<Array<real> > c_;
+
    real dx_;   //< distance between two grid points in x direction
    real dy_;   //< distance between two grid points in y direction
 
    int imax_;
    int jmax_;
    
+    int numSpecies_;
+
    real RectangleX1_;
    real RectangleY1_;
    real RectangleX2_;

@@ -3,6 +3,7 @@
 #include <Debug.hh>
 #include <iostream>
 
+
 //===================================================================================================================
 //
 //  Constructors
@@ -35,7 +36,18 @@ StaggeredGrid::StaggeredGrid(const FileReader & configuration) {
     g_ = Array<real>(imax_+2, jmax_+1);
     obstacleflags_ = Array<bool>(imax_+2, jmax_+2);
     obstacleflags_.fill(false);
-    
+
+    numSpecies_ = configuration.getIntParameter("numSpecies");
+
+    for(int i = 0; i < numSpecies_; ++i) {
+        c_.push_back(Array<real>(imax_+2, jmax_+2));
+        std::stringstream ss;
+        ss << (i+1);
+        lambda_.push_back(configuration.getRealParameter("lambda" + ss.str()));
+    }
+   
+    /*
+    TODO: do this in main
     RectangleX1_ = configuration.getRealParameter("RectangleX1");
     RectangleY1_ = configuration.getRealParameter("RectangleY1");
     RectangleX2_ = configuration.getRealParameter("RectangleX2");
@@ -55,6 +67,7 @@ StaggeredGrid::StaggeredGrid(const FileReader & configuration) {
                  static_cast<int>(std::round(CircleR_/std::max(dx_,dy_))));
     
     saveObstacleFieldToPNG("obstaclefield.png");
+    */
 }
 
 void StaggeredGrid::registerModule(FileReader& configuration) {

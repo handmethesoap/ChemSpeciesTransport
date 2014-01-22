@@ -32,6 +32,8 @@ class FluidSimulator
       void assignInitialValues();
       void simulateGeneral(std::function<bool(real,unsigned int)> criterion);
 
+      void updateC();
+
       static void registerModule(FileReader & params);
   private:
 

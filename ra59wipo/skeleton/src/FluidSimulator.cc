@@ -239,6 +239,42 @@ void FluidSimulator::refreshBoundaries() {
     return;
 }
 
+void FluidSimulator::updateC() {
+
+    real invDx = 1.0/sg_.dx();
+    real invDy = 1.0/sg_.dy();
+
+    real invDx2 = invDx*invDx;
+    real invDy2 = invDy*invDy;
+    //real invDt = 1.0;
+
+    Array<real> & u = sg_.u();
+    Array<real> & v = sg_.v();
+
+    for(int k = 0; k < sg_.numSpecies(); ++k){
+
+        Array<real> & c = sg_.c(k);
+        
+        for(int j = 1; j <= sg_.jmax(); ++j) {
+            for(int i = 1; j <= sg_.imax(); ++i) {
+            
+                real ducdx = invDx * 0.5 * (u(i,j)*(c(i,j)+c(i+1,j)) - u(i-1,j)*(c(i-1,j)+c(i,j))) + gamma_*invDx * 0.5 * (fabs(u(i,j))*(c(i,j)-c(i+1,j)) - fabs(u(i-1,j))*(c(i-1,j)-c(i,j)));
+
+                real dvcdy = invDy * 0.5 * (v(i,j)*(c(i,j)+c(i,j+1)) - v(i,j-1)*(c(i,j-1)+c(i,j))) + gamma_*invDy * 0.5 * (fabs(v(i,j))*(c(i,j)-c(i,j+1)) - fabs(v(i,j-1))*(c(i,j-1)-c(i,j)));
+           
+                real d2cdx2 = invDx2 * (c(i+1,j) - 2.0*c(i,j) + c(i-1,j));
+
+                real d2cdy2 = invDy2 * (c(i,j+1) - 2.0*c(i,j) + c(i,j-1));
+
+                c(i,j) = c(i,j) + dt_ * (sg_.lambda(k)*(d2cdx2+d2cdy2)*c(i,j) /*TODO: + q() */ - ducdx - dvcdy);
+
+            }
+        }
+    }
+
+
+}
+
 void FluidSimulator::computeFG() {
     Array<real> & f = sg_.f();
     Array<real> & g = sg_.g();
