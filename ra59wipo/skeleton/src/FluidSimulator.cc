@@ -256,15 +256,16 @@ void FluidSimulator::updateC() {
         Array<real> & c = sg_.c(k);
         
         for(int j = 1; j <= sg_.jmax(); ++j) {
-            for(int i = 1; j <= sg_.imax(); ++i) {
-            
-                real ducdx = invDx * 0.5 * (u(i,j)*(c(i,j)+c(i+1,j)) - u(i-1,j)*(c(i-1,j)+c(i,j))) + gamma_*invDx * 0.5 * (fabs(u(i,j))*(c(i,j)-c(i+1,j)) - fabs(u(i-1,j))*(c(i-1,j)-c(i,j)));
+            for(int i = 1; j <= sg_.imax(); ++i) { 
+                if (!sg_.isFluid(i,j)) continue;  
+      
+                real ducdx = invDx * 0.5 * (u(i,j)*(c(i,j)+sg_.c(i,j,EAST,k)) - sg_.u(i,j,WEST)*(sg_.c(i,j,WEST,k)+c(i,j))) + gamma_*invDx * 0.5 * (fabs(u(i,j))*(c(i,j)-sg_.c(i,j,EAST,k)) - fabs(sg_.u(i,j,WEST))*(sg_.c(i,j,WEST,k)-c(i,j)));
 
-                real dvcdy = invDy * 0.5 * (v(i,j)*(c(i,j)+c(i,j+1)) - v(i,j-1)*(c(i,j-1)+c(i,j))) + gamma_*invDy * 0.5 * (fabs(v(i,j))*(c(i,j)-c(i,j+1)) - fabs(v(i,j-1))*(c(i,j-1)-c(i,j)));
+                real dvcdy = invDy * 0.5 * (v(i,j)*(c(i,j)+sg_.c(i,j,NORTH,k)) - sg_.v(i,j,SOUTH)*(sg_.c(i,j,SOUTH,k)+c(i,j))) + gamma_*invDy * 0.5 * (fabs(v(i,j))*(c(i,j)-sg_.c(i,j,NORTH,k)) - fabs(sg_.v(i,j,SOUTH))*(sg_.c(i,j,SOUTH,k)-c(i,j)));
            
-                real d2cdx2 = invDx2 * (c(i+1,j) - 2.0*c(i,j) + c(i-1,j));
+                real d2cdx2 = invDx2 * (sg_.c(i,j,EAST,k) - 2.0*c(i,j) + sg_.c(i,j,WEST,k));
 
-                real d2cdy2 = invDy2 * (c(i,j+1) - 2.0*c(i,j) + c(i,j-1));
+                real d2cdy2 = invDy2 * (sg_.c(i,j,NORTH,k) - 2.0*c(i,j) + sg_.c(i,j,SOUTH,k));
 
                 c(i,j) = c(i,j) + dt_ * (sg_.lambda(k)*(d2cdx2+d2cdy2)*c(i,j) /*TODO: + q() */ - ducdx - dvcdy);
 

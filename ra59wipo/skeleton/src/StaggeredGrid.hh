@@ -59,7 +59,8 @@ public:
    inline real p(const int x, const int y, Direction dir);
    inline real u(const int x, const int y, Direction dir);
    inline real v(const int x, const int y, Direction dir);
-   
+   inline real c(const int x, const int y, Direction dir, int i);
+  
    real dx() const { return dx_; }
    real dy() const { return dy_; }
 
@@ -136,6 +137,37 @@ inline real StaggeredGrid::p(const int x, const int y, Direction dir) {
       return p_(x-1,y);
     } else {
       return p_(x,y);
+    }
+  }
+  CHECK(false)
+  return 1.0/0.0;
+}
+
+inline real StaggeredGrid::c(const int x, const int y, Direction dir, int i) {
+  auto &c__ = c(i);
+  if (dir == NORTH) {
+    if (isFluid(x,y+1)) {
+      return c__(x,y+1);
+    } else {
+      return c__(x,y);
+    }
+  } else if (dir == SOUTH) {
+    if (isFluid(x,y-1)) {
+      return c__(x,y-1);
+    } else {
+      return c__(x,y);
+    }
+  } else if (dir == EAST) {
+    if (isFluid(x+1,y)) {
+      return c__(x+1,y);
+    } else {
+      return c__(x,y);
+    }
+  } else if (dir == WEST) { 
+    if (isFluid(x-1,y)) {
+      return c__(x-1,y);
+    } else {
+      return c__(x,y);
     }
   }
   CHECK(false)
