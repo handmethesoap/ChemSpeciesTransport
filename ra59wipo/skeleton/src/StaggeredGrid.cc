@@ -38,16 +38,16 @@ StaggeredGrid::StaggeredGrid(const FileReader & configuration) {
     obstacleflags_.fill(false);
 
     numSpecies_ = configuration.getIntParameter("numSpecies");
+    
 
     for(int i = 0; i < numSpecies_; ++i) {
         c_.push_back(Array<real>(imax_+2, jmax_+2));
         std::stringstream ss;
         ss << (i+1);
         lambda_.push_back(configuration.getRealParameter("lambda" + ss.str()));
+        c(i).fill(configuration.getRealParameter("C" + ss.str() + "_INIT"));
     }
    
-    /*
-    TODO: do this in main
     RectangleX1_ = configuration.getRealParameter("RectangleX1");
     RectangleY1_ = configuration.getRealParameter("RectangleY1");
     RectangleX2_ = configuration.getRealParameter("RectangleX2");
@@ -67,7 +67,6 @@ StaggeredGrid::StaggeredGrid(const FileReader & configuration) {
                  static_cast<int>(std::round(CircleR_/std::max(dx_,dy_))));
     
     saveObstacleFieldToPNG("obstaclefield.png");
-    */
 }
 
 void StaggeredGrid::registerModule(FileReader& configuration) {

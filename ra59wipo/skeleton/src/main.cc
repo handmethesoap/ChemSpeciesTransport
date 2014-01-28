@@ -10,7 +10,7 @@ int main( int argc, char** argv )
     using namespace std;
     FileReader params;
     FluidSimulator::registerModule(params);
-    CHECK(params.readFile("backstep.par"));
+    CHECK(params.readFile("concentration.par"));
     FluidSimulator fsim(params);
     
     int timesteps = params.getIntParameter("timesteps");

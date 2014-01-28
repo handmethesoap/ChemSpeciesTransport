@@ -47,6 +47,7 @@ FluidSimulator::FluidSimulator(const FileReader & conf) : sg_(StaggeredGrid(conf
     U_INIT_ = conf.getRealParameter("U_INIT");
     V_INIT_ = conf.getRealParameter("V_INIT");
     P_INIT_ = conf.getRealParameter("P_INIT");
+
     outputinterval_ = conf.getIntParameter("outputinterval");
 }
 
