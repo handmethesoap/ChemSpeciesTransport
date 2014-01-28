@@ -11,7 +11,7 @@ name bassin
 # per default all boundaries are NOSLIP if not otherwise stated
 
 gx    0.0                        # Body forces (e.g. gravity)
-gy    9.81                        #
+gy    0.0                        #
 
 Re    10.0                       # Reynolds number
    
@@ -50,6 +50,16 @@ normalizationfrequency 100        # every n'th time step in the fluid solver the
 # VTK Visualization Data:
 # -----------------------
 outputinterval 5                  # every n'th time step the visualization should be printed to a file
+
+# Concentration:
+# -----------------------
+numSpecies 3
+lambda1 0.1
+lambda2 0.1
+lambda3 0.2
+C1_INIT 0.0
+C2_INIT 0.0
+C3_INIT 0.0
 
 
 #===============================================================================
