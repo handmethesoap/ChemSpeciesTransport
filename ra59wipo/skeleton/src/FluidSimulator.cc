@@ -257,7 +257,7 @@ void FluidSimulator::updateC() {
         Array<real> & c = sg_.c(k);
         
         for(int j = 1; j <= sg_.jmax(); ++j) {
-            for(int i = 1; j <= sg_.imax(); ++i) { 
+            for(int i = 1; i <= sg_.imax(); ++i) { 
                 if (!sg_.isFluid(i,j)) continue;  
       
                 real ducdx = invDx * 0.5 * (u(i,j)*(c(i,j)+sg_.c(i,j,EAST,k)) - sg_.u(i,j,WEST)*(sg_.c(i,j,WEST,k)+c(i,j))) + gamma_*invDx * 0.5 * (fabs(u(i,j))*(c(i,j)-sg_.c(i,j,EAST,k)) - fabs(sg_.u(i,j,WEST))*(sg_.c(i,j,WEST,k)-c(i,j)));
