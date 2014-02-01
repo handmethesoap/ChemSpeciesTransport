@@ -33,7 +33,7 @@ jmax       30                     # number of interior cells in y-direction
 # ---------
 
 dt           0.02                 # time stepsize
-timesteps    200                  # number of timesteps
+timesteps    800                  # number of timesteps
 safetyfactor 0.5                  # factor "tau" for timestep size control (<=0 means constant dt)
 
 # Pressure Iteration Data:
@@ -68,6 +68,6 @@ concentration_boundary_condition_N_1 IMPERMEABLE/NEUMANN
 concentration_boundary_condition_E_1 IMPERMEABLE/NEUMANN
 concentration_boundary_condition_W_1 INJECTION/DIRICHLET
 
-
+boundary_velocity_N 1.0
 
 #===============================================================================
