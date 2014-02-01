@@ -372,9 +372,12 @@ void FluidSimulator::updateC() {
 
                 real d2cdy2 = invDy2 * (sg_.c(i,j,NORTH,k) - 2.0*c(i,j) + sg_.c(i,j,SOUTH,k));
 
-                c(i,j) = c(i,j) + dt_ * (sg_.lambda(k)*(d2cdx2+d2cdy2)*c(i,j) /*TODO: + q() */ - ducdx - dvcdy);
+                c(i,j) = c(i,j) + dt_ * (sg_.lambda(k)*(d2cdx2+d2cdy2) /*TODO: + q() */ - ducdx - dvcdy);
+		
+		//std::cout << sg_.lambda(k) << " ";
 
             }
+            std::cout << std::endl;
         }
     }
 
@@ -463,7 +466,7 @@ void FluidSimulator::simulateGeneral(std::function<bool(real,unsigned int)> crit
         refreshBoundaries();
 	updateCBoundaries();
 	updateC();
-	//sg_.c(0).print();
+	sg_.c(0).print();
         computeFG();
         composeRHS();
         sor_.solve(sg_);
