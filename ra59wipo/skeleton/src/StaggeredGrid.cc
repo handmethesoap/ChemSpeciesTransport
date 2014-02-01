@@ -42,10 +42,12 @@ StaggeredGrid::StaggeredGrid(const FileReader & configuration) {
 
     for(int i = 0; i < numSpecies_; ++i) {
         c_.push_back(Array<real>(imax_+2, jmax_+2));
+	q_.push_back(Array<real>(imax_+2, jmax_+2));
         std::stringstream ss;
         ss << (i+1);
         lambda_.push_back(configuration.getRealParameter("lambda" + ss.str()));
         c(i).fill(configuration.getRealParameter("C" + ss.str() + "_INIT"));
+	q(i).fill(0);
     }
     
     std::string obstacleFile = configuration.getStringParameter("obstaclefile");

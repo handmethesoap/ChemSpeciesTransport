@@ -44,6 +44,7 @@ public:
    Array<bool> & obstacleflags() { return obstacleflags_; }
 
    Array<real> & c(int i) { return c_[i]; }
+   Array<real> & q(int i) { return q_[i]; }
 
    const Array<real> & p()   const { return p_;   }
    const Array<real> & rhs() const { return rhs_; }
@@ -51,9 +52,11 @@ public:
    const Array<real> & v()   const { return v_;   }
    const Array<real> & f()   const { return f_;   }
    const Array<real> & g()   const { return g_;   }
+   const std::vector<real> & lambda()   const { return lambda_;   }
    const Array<bool> & obstacleflags() const { return obstacleflags_; }
 
    const Array<real> & c(int i) const { return c_[i]; }
+   const Array<real> & q(int i) const { return q_[i]; }
    
    // wrapped access
    inline real p(const int x, const int y, Direction dir);
@@ -94,6 +97,7 @@ protected:
 
    std::vector<real> lambda_;
    std::vector<Array<real> > c_;
+   std::vector<Array<real> > q_;
 
    real dx_;   //< distance between two grid points in x direction
    real dy_;   //< distance between two grid points in y direction

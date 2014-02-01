@@ -1,6 +1,7 @@
 #include "FluidSimulator.hh"
 #include <vector>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 //===================================================================================================================
 //
@@ -90,9 +91,12 @@ void FluidSimulator::determineNextDT ( real const & limit ) {
         auto minimax_v = v.minmax();
         auto dx = sg_.dx();
         auto dy = sg_.dy();
-        dt_ = safetyfactor_ * std::min(std::min(Re_/(2.0 * (1.0/(dx * dx) + 1.0/(dy * dy))),
+	real maxlambda = *std::max_element(sg_.lambda().begin(), sg_.lambda().end());
+	std::cout << "max lambda = " << std::endl;
+        dt_ = safetyfactor_ * std::min(std::min(std::min(Re_/(2.0 * (1.0/(dx * dx) + 1.0/(dy * dy))),
                                        dx / std::max(fabs(minimax_u.first), minimax_u.second)),
-                                       dy / std::max(fabs(minimax_v.first), minimax_v.second));
+                                       dy / std::max(fabs(minimax_v.first), minimax_v.second)),
+				       (1.0/(2.0*maxlambda))*1.0/(1.0/(dx * dx) + 1.0/(dy * dy)));
     }
     return;
 }
@@ -344,6 +348,19 @@ void FluidSimulator::updateCBoundaries(){
   }
 }
 
+void FluidSimulator::calculateQ() {
+ for(int k = 0; k < sg_.numSpecies(); ++k){
+    Array<real> & q = sg_.q(k);
+    
+    for(int j = 1; j <= sg_.jmax(); ++j) {
+      for(int i = 1; i <= sg_.imax(); ++i) { 
+	q(i,j) = -min(sg_.c(0)(i,j) , sg_.c(1)(i,j));
+      }
+    }
+ }
+  
+}
+
 void FluidSimulator::updateC() {
 
     real invDx = 1.0/sg_.dx();
@@ -359,6 +376,7 @@ void FluidSimulator::updateC() {
     for(int k = 0; k < sg_.numSpecies(); ++k){
 
         Array<real> & c = sg_.c(k);
+	Array<real> & q = sg_.q(k);
         
         for(int j = 1; j <= sg_.jmax(); ++j) {
             for(int i = 1; i <= sg_.imax(); ++i) { 
@@ -372,7 +390,7 @@ void FluidSimulator::updateC() {
 
                 real d2cdy2 = invDy2 * (sg_.c(i,j,NORTH,k) - 2.0*c(i,j) + sg_.c(i,j,SOUTH,k));
 
-                c(i,j) = c(i,j) + dt_ * (sg_.lambda(k)*(d2cdx2+d2cdy2) /*TODO: + q() */ - ducdx - dvcdy);
+                c(i,j) = c(i,j) + dt_ * (sg_.lambda(k)*(d2cdx2+d2cdy2) + q(i,j) - ducdx - dvcdy);
 		
 		//std::cout << sg_.lambda(k) << " ";
 
@@ -465,6 +483,7 @@ void FluidSimulator::simulateGeneral(std::function<bool(real,unsigned int)> crit
         determineNextDT(0.0);
         refreshBoundaries();
 	updateCBoundaries();
+	calculateQ();
 	updateC();
 	//sg_.c(0).print();
         computeFG();
