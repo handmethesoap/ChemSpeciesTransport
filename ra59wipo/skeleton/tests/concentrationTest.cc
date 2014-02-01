@@ -27,5 +27,5 @@ int main(){
   fsim.updateCBoundaries();
   fsim.grid().c(3).print();
   
-  
+  return 1;
 }

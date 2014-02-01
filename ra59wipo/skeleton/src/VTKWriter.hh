@@ -28,7 +28,7 @@ class VTKWriter
 public:
 
    VTKWriter(  const StaggeredGrid & grid, const std::string & basename,
-               bool writePressure = true, bool writeVelocity = true );
+               bool writePressure = true, bool writeVelocity = true, bool writeConcentrations = true );
 
    void write();
 
@@ -38,6 +38,7 @@ private:
 
    bool writeVelocity_;
    bool writePressure_;
+   bool writeConcentrations_;
 
    int counter_;
    std::string header_;

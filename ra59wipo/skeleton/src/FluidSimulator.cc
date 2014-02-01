@@ -461,6 +461,9 @@ void FluidSimulator::simulateGeneral(std::function<bool(real,unsigned int)> crit
         }
         determineNextDT(0.0);
         refreshBoundaries();
+	updateCBoundaries();
+	updateC();
+	//sg_.c(0).print();
         computeFG();
         composeRHS();
         sor_.solve(sg_);
