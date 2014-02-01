@@ -1,0 +1,16 @@
+% Tobias Preclik
+% lssbeamer_FAU.sty 0.1
+% 2011/10/27
+
+\ProvidesPackage{lssbeamer_FAU}[2011/10/27]
+\NeedsTeXFormat{LaTeX2e}
+
+\newcommand{\lsstheme}{fau-4-3}
+\ProcessOptions\relax
+
+\usetheme{\lsstheme}
+
+	\setbeamertemplate{projectboxsmall}{\vspace{-3mm}\includegraphics[height=11mm]{art/logo_lss.pdf}}
+	\setbeamertemplate{projectbox}{\vspace{-6mm}\includegraphics[height=15mm]{art/logo_lss.pdf}}
+
+\let\lsstheme\@undefined
