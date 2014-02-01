@@ -13,6 +13,18 @@ void FluidSimulator::registerModule(FileReader & params) {
    params.registerStringParameter("boundary_condition_N","NOSLIP");
    params.registerStringParameter("boundary_condition_W","NOSLIP");
    params.registerStringParameter("boundary_condition_E","NOSLIP");
+   
+   //cant go here as we dont know how many species before reading the file... therefore we cant have default values for the concentration boundaries
+//    for(int i = 0; i < sg_.numSpecies(); ++i){
+// 
+//       std::stringstream ss;
+//       ss << (i+1);
+//       
+//       params.registerStringParameter("concentration_boundary_condition_S_" + ss.str(),"IMPERMEABLE/NEUMANN");
+//       params.registerStringParameter("concentration_boundary_condition_N_" + ss.str(),"IMPERMEABLE/NEUMANN");
+//       params.registerStringParameter("concentration_boundary_condition_W_" + ss.str(),"IMPERMEABLE/NEUMANN");
+//       params.registerStringParameter("concentration_boundary_condition_E_" + ss.str(),"IMPERMEABLE/NEUMANN");
+//    }
    params.registerRealParameter("boundary_velocity_S",0.0);
    params.registerRealParameter("boundary_velocity_N",0.0);
    params.registerRealParameter("boundary_velocity_W",0.0);
@@ -36,14 +48,33 @@ FluidSimulator::FluidSimulator(const FileReader & conf) : sg_(StaggeredGrid(conf
     gx_ = conf.getRealParameter("gx");
     gy_ = conf.getRealParameter("gy");
     safetyfactor_ = conf.getRealParameter("safetyfactor");
+    
     boundary_condition_S_ = conf.getStringParameter("boundary_condition_S");
     boundary_condition_N_ = conf.getStringParameter("boundary_condition_N");
     boundary_condition_W_ = conf.getStringParameter("boundary_condition_W");
     boundary_condition_E_ = conf.getStringParameter("boundary_condition_E");
+    
     boundary_velocity_S_ = conf.getRealParameter("boundary_velocity_S");
     boundary_velocity_N_ = conf.getRealParameter("boundary_velocity_N");
     boundary_velocity_W_ = conf.getRealParameter("boundary_velocity_W");
     boundary_velocity_E_ = conf.getRealParameter("boundary_velocity_E");
+    
+    for(int i = 0; i < sg_.numSpecies(); ++i){
+
+      std::stringstream ss;
+      ss << (i+1);
+      
+      concentration_boundary_condition_S_.push_back(conf.getStringParameter("concentration_boundary_condition_S_" + ss.str()));
+      concentration_boundary_condition_N_.push_back(conf.getStringParameter("concentration_boundary_condition_N_" + ss.str()));
+      concentration_boundary_condition_W_.push_back(conf.getStringParameter("concentration_boundary_condition_W_" + ss.str()));
+      concentration_boundary_condition_E_.push_back(conf.getStringParameter("concentration_boundary_condition_E_" + ss.str()));
+      
+      boundary_concentration_S_.push_back(conf.getRealParameter("boundary_concentration_S_" + ss.str()));
+      boundary_concentration_N_.push_back(conf.getRealParameter("boundary_concentration_N_" + ss.str()));
+      boundary_concentration_W_.push_back(conf.getRealParameter("boundary_concentration_W_" + ss.str()));
+      boundary_concentration_E_.push_back(conf.getRealParameter("boundary_concentration_E_" + ss.str()));
+   }
+    
     U_INIT_ = conf.getRealParameter("U_INIT");
     V_INIT_ = conf.getRealParameter("V_INIT");
     P_INIT_ = conf.getRealParameter("P_INIT");
@@ -242,6 +273,75 @@ void FluidSimulator::refreshBoundaries() {
 
 void FluidSimulator::updateCBoundaries(){
   
+  int imax = sg_.imax();
+  int jmax = sg_.jmax();
+  
+  
+  for(int k = 0; k < sg_.numSpecies(); ++k){
+  
+    Array<real> & c = sg_.c(k);
+    
+    if(concentration_boundary_condition_S_[k].compare("IMPERMEABLE/NEUMANN") == 0){
+      for(int i = 1; i <= imax; i++){
+	c(i,0) = c(i,1);
+      }
+    }
+    else if(concentration_boundary_condition_S_[k].compare("INJECTION/DIRICHLET") == 0){
+      for(int i = 1; i <= imax; i++){
+	c(i,0) = 2*(boundary_concentration_S_[k]) - c(i,1);
+      }
+    }
+    else{
+      CHECK_MSG(false, concentration_boundary_condition_S_[k]);
+    }
+    
+    if(concentration_boundary_condition_E_[k].compare("IMPERMEABLE/NEUMANN") == 0){
+      for(int i = 1; i <= jmax; i++){
+	c(imax+1,i) = c(imax,i);
+      }
+    }
+    else if(concentration_boundary_condition_E_[k].compare("INJECTION/DIRICHLET") == 0){
+      for(int i = 1; i <= jmax; i++){
+	c(imax+1,i) = 2*(boundary_concentration_E_[k]) - c(imax,i);
+      }
+    }
+    else{
+      CHECK_MSG(false, concentration_boundary_condition_E_[k]);
+    }
+    
+    if(concentration_boundary_condition_N_[k].compare("IMPERMEABLE/NEUMANN") == 0){
+      for(int i = 1; i <= imax; i++){
+	c(i,jmax+1) = c(i,jmax);
+      }
+    }
+    else if(concentration_boundary_condition_N_[k].compare("INJECTION/DIRICHLET") == 0){
+      for(int i = 1; i <= imax; i++){
+	c(i,jmax+1) = 2*(boundary_concentration_N_[k]) - c(i,jmax);
+      }
+    }
+    else{
+      CHECK_MSG(false, concentration_boundary_condition_N_[k]);
+    }
+    
+    if(concentration_boundary_condition_W_[k].compare("IMPERMEABLE/NEUMANN") == 0){
+      for(int i = 1; i <= jmax; i++){
+	c(0,i) = c(1,i);
+      }
+    }
+    else if(concentration_boundary_condition_W_[k].compare("INJECTION/DIRICHLET") == 0){
+      for(int i = 1; i <= jmax; i++){
+	c(0,i) = 2*(boundary_concentration_W_[k]) - c(1,i);
+      }
+    }
+    else{
+      CHECK_MSG(false, concentration_boundary_condition_W_[k]);
+    }
+    
+    
+
+
+    
+  }
 }
 
 void FluidSimulator::updateC() {

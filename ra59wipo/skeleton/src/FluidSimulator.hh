@@ -56,6 +56,16 @@ class FluidSimulator
       real boundary_velocity_W_;
       real boundary_velocity_E_;
       
+      std::vector<std::string> concentration_boundary_condition_S_;
+      std::vector<std::string> concentration_boundary_condition_N_;
+      std::vector<std::string> concentration_boundary_condition_W_;
+      std::vector<std::string> concentration_boundary_condition_E_;
+      
+      std::vector<real> boundary_concentration_S_;
+      std::vector<real> boundary_concentration_N_;
+      std::vector<real> boundary_concentration_W_;
+      std::vector<real> boundary_concentration_E_;
+      
       real U_INIT_;
       real V_INIT_;
       real P_INIT_;
