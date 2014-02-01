@@ -258,6 +258,18 @@ breakautoindent=true,
 \end{itemize}
 \end{frame}
 
+\subsection{Timestep Control}
+\begin{frame}{Timestep Control}
+	\begin{equation}
+			dt < \frac{1}{2 \lambda_i} \left ( \frac{1}{(dx)^2} +
+			\frac{1}{(dy)^2} \right ) ^{-1}
+	\end{equation}
+	\begin{itemize}
+		\item has to be added for every new species
+		\item depends on the diffusion constant
+	\end{itemize}
+\end{frame}
+
 \subsection{Implementation}
 \begin{frame}[allowframebreaks]{Implementation}
 \begin{itemize}
