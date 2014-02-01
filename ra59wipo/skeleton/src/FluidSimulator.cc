@@ -350,10 +350,12 @@ void FluidSimulator::updateCBoundaries(){
 void FluidSimulator::calculateQ() {
 
   for(int j = 1; j <= sg_.jmax(); ++j) {
-    for(int i = 1; i <= sg_.imax(); ++i) { 
-      sg_.q(0)(i,j) = -min(sg_.c(0)(i,j) , sg_.c(1)(i,j));
-      sg_.q(1)(i,j) = -min(sg_.c(0)(i,j) , sg_.c(1)(i,j));
-      sg_.q(2)(i,j) = min(sg_.c(0)(i,j) , sg_.c(1)(i,j));
+    for(int i = 1; i <= sg_.imax(); ++i) {
+      if (!sg_.nearObstacle(i,j)) continue; 
+      real reactive = min(sg_.c(0)(i,j) , sg_.c(1)(i,j));
+      sg_.q(0)(i,j) = -reactive;
+      sg_.q(1)(i,j) = -reactive;
+      sg_.q(2)(i,j) = reactive;
     }
   }
   
