@@ -10,6 +10,8 @@ name vtkoutput/bassin
 
 # per default all boundaries are NOSLIP if not otherwise stated
 
+boundary_velocity_N 1.0          # constant velocity u_bar of the lid
+
 gx    0.0                        # Body forces (e.g. gravity)
 gy    0.0                        #
 
@@ -33,7 +35,7 @@ jmax       30                     # number of interior cells in y-direction
 # ---------
 
 dt           0.02                 # time stepsize
-timesteps    200                  # number of timesteps
+timesteps    800                  # number of timesteps
 safetyfactor 0.5                  # factor "tau" for timestep size control (<=0 means constant dt)
 
 # Pressure Iteration Data:

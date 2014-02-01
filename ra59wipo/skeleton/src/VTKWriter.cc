@@ -79,6 +79,7 @@ void VTKWriter::write()
 	  for ( int i = 0; i < grid_.xSize (); ++i )
 	      fileStream << grid_.c(k)( i+1, j+1 ) << "\n";
      }
+     fileStream << "\n";
    }
 
    {

@@ -377,7 +377,7 @@ void FluidSimulator::updateC() {
 		//std::cout << sg_.lambda(k) << " ";
 
             }
-            std::cout << std::endl;
+            //git std::cout << std::endl;
         }
     }
 
@@ -466,7 +466,7 @@ void FluidSimulator::simulateGeneral(std::function<bool(real,unsigned int)> crit
         refreshBoundaries();
 	updateCBoundaries();
 	updateC();
-	sg_.c(0).print();
+	//sg_.c(0).print();
         computeFG();
         composeRHS();
         sor_.solve(sg_);
