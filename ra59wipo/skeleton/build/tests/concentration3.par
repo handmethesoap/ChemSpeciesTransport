@@ -1,0 +1,99 @@
+#==============================================================================
+#                           Driven Cavity (Part II)
+#==============================================================================
+
+
+# Problem specific Data:
+# ---------------------
+
+name vtkoutput/bassin
+
+# per default all boundaries are NOSLIP if not otherwise stated
+
+boundary_velocity_N 500.0          # constant velocity u_bar of the lid
+
+gx    0.0                        # Body forces (e.g. gravity)
+gy    0.0                        #
+
+Re    100.0                       # Reynolds number
+   
+U_INIT    0.0                    # initial value for velocity in x-direction
+V_INIT    0.0                    # initial value for velocity in y-direction
+P_INIT    0.0                    # initial value for pressure
+
+
+# Geometry Data:
+# -------------
+
+xlength    1.0                    # domain size in x-direction
+ylength    1.0                    # domain size in y-direction
+imax       40                     # number of interior cells in x-direction
+jmax       40                     # number of interior cells in y-direction
+obstaclefile dotted.png
+
+# Time Data:
+# ---------
+
+dt           0.02                 # time stepsize
+timesteps    800                  # number of timesteps
+safetyfactor 0.5                  # factor "tau" for timestep size control (<=0 means constant dt)
+
+# Pressure Iteration Data:
+# -----------------------
+
+itermax                10000       # maximal number of pressure iteration in one time step
+eps                    0.0001     # stopping tolerance for pressure iteration
+omg                    1.8        # relaxation parameter for SOR iteration
+gamma                  0.9        # upwind differencing factor gamma
+checkfrequency         5          # every n'th SOR iteration the residuum is calculated and checked against eps
+normalizationfrequency 100        # every n'th time step in the fluid solver the pressure is centered around 0
+
+
+# VTK Visualization Data:
+# -----------------------
+outputinterval 5                  # every n'th time step the visualization should be printed to a file
+
+# Concentration:
+# -----------------------
+numSpecies 3
+lambda1 8.0
+lambda2 9.0
+lambda3 10.0
+
+C1_INIT 0.0
+C2_INIT 0.0
+C3_INIT 0.0
+
+boundary_concentration_S_1 0.0
+boundary_concentration_N_1 0.0
+boundary_concentration_E_1 1.0
+boundary_concentration_W_1 1.0
+
+boundary_concentration_S_2 1.0
+boundary_concentration_N_2 0.0
+boundary_concentration_E_2 0.0
+boundary_concentration_W_2 0.0
+
+boundary_concentration_S_3 0.0
+boundary_concentration_N_3 0.0
+boundary_concentration_E_3 0.0
+boundary_concentration_W_3 0.0
+
+concentration_boundary_condition_S_1 IMPERMEABLE/NEUMANN
+concentration_boundary_condition_N_1 IMPERMEABLE/NEUMANN
+concentration_boundary_condition_E_1 INJECTION/DIRICHLET
+concentration_boundary_condition_W_1 INJECTION/DIRICHLET
+
+concentration_boundary_condition_S_2 INJECTION/DIRICHLET
+concentration_boundary_condition_N_2 IMPERMEABLE/NEUMANN
+concentration_boundary_condition_E_2 IMPERMEABLE/NEUMANN
+concentration_boundary_condition_W_2 IMPERMEABLE/NEUMANN
+
+concentration_boundary_condition_S_3 IMPERMEABLE/NEUMANN
+concentration_boundary_condition_N_3 IMPERMEABLE/NEUMANN
+concentration_boundary_condition_E_3 IMPERMEABLE/NEUMANN
+concentration_boundary_condition_W_3 IMPERMEABLE/NEUMANN
+
+boundary_velocity_N 10.0
+
+#===============================================================================
