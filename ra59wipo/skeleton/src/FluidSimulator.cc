@@ -348,15 +348,14 @@ void FluidSimulator::updateCBoundaries(){
 }
 
 void FluidSimulator::calculateQ() {
- for(int k = 0; k < sg_.numSpecies(); ++k){
-    Array<real> & q = sg_.q(k);
-    
-    for(int j = 1; j <= sg_.jmax(); ++j) {
-      for(int i = 1; i <= sg_.imax(); ++i) { 
-	q(i,j) = -min(sg_.c(0)(i,j) , sg_.c(1)(i,j));
-      }
+
+  for(int j = 1; j <= sg_.jmax(); ++j) {
+    for(int i = 1; i <= sg_.imax(); ++i) { 
+      sg_.q(0)(i,j) = -min(sg_.c(0)(i,j) , sg_.c(1)(i,j));
+      sg_.q(1)(i,j) = -min(sg_.c(0)(i,j) , sg_.c(1)(i,j));
+      sg_.q(2)(i,j) = min(sg_.c(0)(i,j) , sg_.c(1)(i,j));
     }
- }
+  }
   
 }
 
