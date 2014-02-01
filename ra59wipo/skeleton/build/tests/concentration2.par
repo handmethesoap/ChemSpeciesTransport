@@ -55,21 +55,33 @@ outputinterval 5                  # every n'th time step the visualization shoul
 
 # Concentration:
 # -----------------------
-numSpecies 1
+numSpecies 2
 lambda1 0.1
+lambda2 0.5
 
 C1_INIT 0.0
+C2_INIT 0.0
 
 boundary_concentration_S_1 0.0
 boundary_concentration_N_1 0.0
 boundary_concentration_E_1 0.0
 boundary_concentration_W_1 1.0
 
+boundary_concentration_S_2 0.0
+boundary_concentration_N_2 0.0
+boundary_concentration_E_2 1.0
+boundary_concentration_W_2 0.0
+
 concentration_boundary_condition_S_1 IMPERMEABLE/NEUMANN
 concentration_boundary_condition_N_1 IMPERMEABLE/NEUMANN
 concentration_boundary_condition_E_1 IMPERMEABLE/NEUMANN
 concentration_boundary_condition_W_1 INJECTION/DIRICHLET
 
-boundary_velocity_N 1.0
+concentration_boundary_condition_S_2 IMPERMEABLE/NEUMANN
+concentration_boundary_condition_N_2 IMPERMEABLE/NEUMANN
+concentration_boundary_condition_E_2 INJECTION/DIRICHLET
+concentration_boundary_condition_W_2 IMPERMEABLE/NEUMANN
+
+boundary_velocity_N 10.0
 
 #===============================================================================

@@ -32,6 +32,7 @@ class FluidSimulator
       void assignInitialValues();
       void simulateGeneral(std::function<bool(real,unsigned int)> criterion);
       void updateCBoundaries();
+      void calculateQ();
 
       void updateC();
 
