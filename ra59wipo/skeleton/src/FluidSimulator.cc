@@ -92,7 +92,6 @@ void FluidSimulator::determineNextDT ( real const & limit ) {
         auto dx = sg_.dx();
         auto dy = sg_.dy();
 	real maxlambda = *std::max_element(sg_.lambda().begin(), sg_.lambda().end());
-	std::cout << "max lambda = " << std::endl;
         dt_ = safetyfactor_ * std::min(std::min(std::min(Re_/(2.0 * (1.0/(dx * dx) + 1.0/(dy * dy))),
                                        dx / std::max(fabs(minimax_u.first), minimax_u.second)),
                                        dy / std::max(fabs(minimax_v.first), minimax_v.second)),
