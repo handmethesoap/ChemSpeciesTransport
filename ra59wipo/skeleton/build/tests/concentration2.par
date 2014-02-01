@@ -70,6 +70,6 @@ concentration_boundary_condition_N_1 IMPERMEABLE/NEUMANN
 concentration_boundary_condition_E_1 IMPERMEABLE/NEUMANN
 concentration_boundary_condition_W_1 INJECTION/DIRICHLET
 
-
+boundary_velocity_N 1.0
 
 #===============================================================================
