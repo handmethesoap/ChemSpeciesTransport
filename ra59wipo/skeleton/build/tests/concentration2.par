@@ -27,9 +27,9 @@ P_INIT    0.0                    # initial value for pressure
 
 xlength    1.0                    # domain size in x-direction
 ylength    1.0                    # domain size in y-direction
-imax       30                     # number of interior cells in x-direction
-jmax       30                     # number of interior cells in y-direction
-
+imax       28                     # number of interior cells in x-direction
+jmax       28                     # number of interior cells in y-direction
+obstaclefile porous2.png
 
 # Time Data:
 # ---------

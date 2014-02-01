@@ -47,7 +47,10 @@ StaggeredGrid::StaggeredGrid(const FileReader & configuration) {
         lambda_.push_back(configuration.getRealParameter("lambda" + ss.str()));
         c(i).fill(configuration.getRealParameter("C" + ss.str() + "_INIT"));
     }
-   
+    
+    std::string obstacleFile = configuration.getStringParameter("obstaclefile");
+    loadObstacleFieldFromPNG(obstacleFile);
+    
     RectangleX1_ = configuration.getRealParameter("RectangleX1");
     RectangleY1_ = configuration.getRealParameter("RectangleY1");
     RectangleX2_ = configuration.getRealParameter("RectangleX2");

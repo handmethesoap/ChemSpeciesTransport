@@ -48,7 +48,7 @@ FluidSimulator::FluidSimulator(const FileReader & conf) : sg_(StaggeredGrid(conf
     gx_ = conf.getRealParameter("gx");
     gy_ = conf.getRealParameter("gy");
     safetyfactor_ = conf.getRealParameter("safetyfactor");
-    
+
     boundary_condition_S_ = conf.getStringParameter("boundary_condition_S");
     boundary_condition_N_ = conf.getStringParameter("boundary_condition_N");
     boundary_condition_W_ = conf.getStringParameter("boundary_condition_W");
