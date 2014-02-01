@@ -10,12 +10,12 @@ name vtkoutput/bassin
 
 # per default all boundaries are NOSLIP if not otherwise stated
 
-boundary_velocity_N 1.0          # constant velocity u_bar of the lid
+boundary_velocity_N 500.0          # constant velocity u_bar of the lid
 
 gx    0.0                        # Body forces (e.g. gravity)
 gy    0.0                        #
 
-Re    10000.0                       # Reynolds number
+Re    100.0                       # Reynolds number
    
 U_INIT    0.0                    # initial value for velocity in x-direction
 V_INIT    0.0                    # initial value for velocity in y-direction
@@ -27,9 +27,9 @@ P_INIT    0.0                    # initial value for pressure
 
 xlength    1.0                    # domain size in x-direction
 ylength    1.0                    # domain size in y-direction
-imax       400                     # number of interior cells in x-direction
-jmax       400                     # number of interior cells in y-direction
-obstaclefile ce-big.png
+imax       100                     # number of interior cells in x-direction
+jmax       100                     # number of interior cells in y-direction
+obstaclefile ce-medium.png
 
 # Time Data:
 # ---------
@@ -56,9 +56,9 @@ outputinterval 5                  # every n'th time step the visualization shoul
 # Concentration:
 # -----------------------
 numSpecies 3
-lambda1 0.6
-lambda2 0.8
-lambda3 0.9
+lambda1 8.0
+lambda2 9.0
+lambda3 10.0
 
 C1_INIT 0.0
 C2_INIT 0.0
@@ -66,7 +66,7 @@ C3_INIT 0.0
 
 boundary_concentration_S_1 0.0
 boundary_concentration_N_1 0.0
-boundary_concentration_E_1 0.0
+boundary_concentration_E_1 1.0
 boundary_concentration_W_1 1.0
 
 boundary_concentration_S_2 1.0
@@ -81,7 +81,7 @@ boundary_concentration_W_3 0.0
 
 concentration_boundary_condition_S_1 IMPERMEABLE/NEUMANN
 concentration_boundary_condition_N_1 IMPERMEABLE/NEUMANN
-concentration_boundary_condition_E_1 IMPERMEABLE/NEUMANN
+concentration_boundary_condition_E_1 INJECTION/DIRICHLET
 concentration_boundary_condition_W_1 INJECTION/DIRICHLET
 
 concentration_boundary_condition_S_2 INJECTION/DIRICHLET
