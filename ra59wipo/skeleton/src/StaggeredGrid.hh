@@ -77,6 +77,7 @@ public:
    int ySize() const { return jmax_; }
    
    inline bool isFluid (const int x, const int y);
+   inline bool nearObstacle (const int x, const int y);
    inline int getNumFluid();
    inline void setCellToObstacle(const int x, const int y);
 
@@ -248,6 +249,16 @@ inline real StaggeredGrid::v(const int x, const int y, Direction dir) {
 
 inline bool StaggeredGrid::isFluid(const int x, const int y) {
    return !obstacleflags_(x,y);
+}
+
+inline bool StaggeredGrid::nearObstacle (const int x, const int y) {
+    bool result = false;
+    for (int j = y-1; j < y+1; j++) {
+      for (int i = x-1; i < x+1; i++) {
+        result = (!isFluid(i,j)) || result;
+      }
+    }
+    return result;
 }
 
 inline void StaggeredGrid::setCellToObstacle(const int x, const int y) {
