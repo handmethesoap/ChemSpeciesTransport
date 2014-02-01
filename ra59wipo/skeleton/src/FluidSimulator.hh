@@ -31,6 +31,7 @@ class FluidSimulator
       void refreshBoundaries();
       void assignInitialValues();
       void simulateGeneral(std::function<bool(real,unsigned int)> criterion);
+      void updateCBoundaries();
 
       void updateC();
 
@@ -58,6 +59,8 @@ class FluidSimulator
       real U_INIT_;
       real V_INIT_;
       real P_INIT_;
+      
+      std::vector<real> init_concentrations;
       
       StaggeredGrid sg_;
       SORSolver sor_;

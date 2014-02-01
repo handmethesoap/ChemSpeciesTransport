@@ -240,6 +240,10 @@ void FluidSimulator::refreshBoundaries() {
     return;
 }
 
+void FluidSimulator::updateCBoundaries(){
+  
+}
+
 void FluidSimulator::updateC() {
 
     real invDx = 1.0/sg_.dx();
@@ -334,7 +338,6 @@ void FluidSimulator::computeFG() {
     }
 }
 
-
 void FluidSimulator::assignInitialValues() {
     sg_.u().fill(U_INIT_);
     sg_.v().fill(V_INIT_);
@@ -344,7 +347,6 @@ void FluidSimulator::assignInitialValues() {
     sg_.rhs().fill(0.0);    
     return;
 }
-
 
 void FluidSimulator::simulateGeneral(std::function<bool(real,unsigned int)> criterion) {
     real t = 0.0;
