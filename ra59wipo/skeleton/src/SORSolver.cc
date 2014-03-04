@@ -101,7 +101,7 @@ bool SORSolver::solve(StaggeredGrid& grid)
     
           std::stringstream is;
           is  << "Iteration: " << iter << " Residual: " << residual;// << std::endl;
-          PRG_MSG(is.str())
+          //PRG_MSG(is.str())
           if (residual < eps_) break;
         }
 
